@@ -57,6 +57,7 @@ end
 
 # Single-line step scoper
 When /^(.*) within (.*[^:])$/ do |step, parent|
+  puts page.find('div.sidebar').text
   with_scope(parent) { When step }
 end
 
@@ -66,11 +67,15 @@ When /^(.*) within (.*[^:]):$/ do |step, parent, table_or_string|
 end
 
 Given /^(?:|I )am on (.+)$/ do |page_name|
-  visit path_to(page_name)
+    visit path_to(page_name)
 end
 
 When /^(?:|I )go to (.+)$/ do |page_name|
-  visit path_to(page_name)
+  if page_name == "the admin page"
+    visit '/admin'
+  else  
+    visit path_to(page_name)
+  end 
 end
 
 When /^(?:|I )press "([^"]*)"$/ do |button|

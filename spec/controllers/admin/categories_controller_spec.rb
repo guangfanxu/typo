@@ -16,6 +16,33 @@ describe Admin::CategoriesController do
     assert_response :redirect, :action => 'index'
   end
 
+##############
+  it "test_new" do
+   @category=Category.new # double :Category 
+   #puts params[:id]      
+   Category.stub(:get).with(':new').and_return(@category)
+    get :new
+    assert_response :redirect, :action => 'new'
+  end
+
+  describe 'new action' do
+    before :each do
+      @category=Category.new # double :Category 
+      get :new
+    end
+
+    it 'should be success' do
+      response.should be_success
+    end
+
+    it 'should render template new' do
+      response.should render_template('new')
+    end    
+  end
+
+
+##############
+
   describe "test_edit" do
     before(:each) do
       get :edit, :id => Factory(:category).id
