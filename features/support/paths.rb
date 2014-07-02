@@ -21,7 +21,7 @@ module NavigationHelpers
       '/admin' 
     when /the article page for "(.+)"$/
      # puts "#{$1}"
-      #puts Article.all
+      puts Article.all
      # puts "#{}" 
       nr=Article.find_by_title($1).id
       puts "nr=#{nr}"

@@ -22,6 +22,25 @@ class Admin::ContentController < Admin::BaseController
       @article = Article.new(params[:article])
     end
   end
+  def merge 
+     flash[:notice] = params[:id]
+     #@articles=Article.find_by_id(1)
+     @article=Article.find_by_id(params[:id])
+     merged=Article.find_by_id(1)
+     #merged=Article.find_by_id(params[:merge_with])
+     if params[:id] != params[:merge_with]
+       @article.body = @articles.body + " " + merged.body
+       flash[:notice] = params[:id] +"  "+ params[:merge_with] # @articles.body
+       @article.save
+       #merged.destroy 
+     end
+     #render 'edit'
+     #redirect_to :action => 'edit'    
+    @images = Resource.images_by_created_at.page(params[:page]).per(10)
+    @resources = Resource.without_images_by_filename
+    @macros = TextFilter.macro_filters
+    render 'new'
+  end
 
   def new
     new_or_edit

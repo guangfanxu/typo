@@ -4,3 +4,12 @@
   <%= render :partial => "form" %>
 
 <% end %>
+<%= form_tag("/admin/content/merge/#{@article.id}" ) do %>
+  <table width="100">
+    <tr><td width="50%"><%=label_tag ("Article ID:") %></td>
+    <td width="50%">
+    <%=text_field_tag("merge_with", value = nil) %> </td></tr>
+   <tr><td><%= button_to( "Merge") do  %></td><td></td></tr>
+  </table>
+  <% end %>
+<% end %>
