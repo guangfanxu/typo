@@ -26,13 +26,14 @@ class Admin::ContentController < Admin::BaseController
      flash[:notice] = params[:id]
      #@articles=Article.find_by_id(1)
      @article=Article.find_by_id(params[:id])
-     merged=Article.find_by_id(1)
-     #merged=Article.find_by_id(params[:merge_with])
-     if params[:id] != params[:merge_with]
-       @article.body = @articles.body + " " + merged.body
-       flash[:notice] = params[:id] +"  "+ params[:merge_with] # @articles.body
-       @article.save
-       #merged.destroy 
+     #merged=Article.find_by_id(1)
+       merged=Article.find_by_id(params[:merge_with])
+     if params[:id] != params[:merge_with] && !merged.body.nil?
+       @article[:body] << " " +  merged[:body] 
+       flash[:notice] = params[:id] +"  "+ params[:merge_with] + " " + @article[:body]
+       merged.comments.each{|x|@article.add_comment({:author=>x.author, :body=>x[:body]})}
+       @article.save!
+       merged.destroy 
      end
      #render 'edit'
      #redirect_to :action => 'edit'    
